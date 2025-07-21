@@ -1,0 +1,19 @@
+[project]
+name = "alenkapeck-backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "alembic>=1.16.4",
+    "asyncpg>=0.30.0",
+    "black>=25.1.0",
+    "fastapi>=0.116.1",
+    "psycopg2-binary>=2.9.10",
+    "pydantic[email]>=2.0",
+    "pydentic>=0.0.1.dev3",
+    "pytest>=8.4.1",
+    "python-dotenv>=1.1.1",
+    "sqlalchemy>=2.0.41",
+    "uvicorn[standard]>=0.35.0",
+]

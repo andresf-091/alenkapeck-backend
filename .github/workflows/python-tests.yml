@@ -1,0 +1,27 @@
+name: Python Tests
+
+on: [push, pull_request]  # Триггеры
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # ОС
+
+    steps:
+    # 1. Получение кода
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Установка Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"  # Любая версия
+
+    # 3. Установка зависимостей
+    - name: Install dependencies
+      run: |
+        pip install .
+
+    # 4. Запуск тестов
+    - name: Run tests
+      run: pytest -v
