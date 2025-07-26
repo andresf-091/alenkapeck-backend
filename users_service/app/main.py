@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.models import User
-from app.routers import users
-from app.database import create_db_if_not_exists, create_tables
+import strawberry
+from strawberry.fastapi import GraphQLRouter
+
+from .graphql.schema import schema
+from .models import User
+from .database import create_db_if_not_exists
 
 
 @asynccontextmanager
@@ -14,7 +17,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(users.router)
+graphql_app = GraphQLRouter(schema)
+
+app.include_router(graphql_app, prefix="/graphql")
 
 
 @app.get("/")
