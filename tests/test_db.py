@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import text
-from users_service.app.database import Base
+from users_service.app.models import Base
 from users_service.app.graphql.types.enums import UserRole
 
 

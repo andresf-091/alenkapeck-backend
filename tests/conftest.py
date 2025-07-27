@@ -2,8 +2,7 @@ import pytest_asyncio
 import pytest
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import sessionmaker
-from users_service.app.database import Base
-from users_service.app.models import user
+from users_service.app.models import Base, user
 import asyncio
 
 
