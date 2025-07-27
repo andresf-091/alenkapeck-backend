@@ -13,8 +13,11 @@ dependencies = [
     "pydantic[email]>=2.0",
     "pydentic>=0.0.1.dev3",
     "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
     "python-dotenv>=1.1.1",
     "sqlalchemy>=2.0.41",
     "strawberry-graphql[fastapi]>=0.278.0",
     "uvicorn[standard]>=0.35.0",
 ]
+[pytest]
+asyncio_mode = "auto"
