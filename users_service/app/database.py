@@ -1,29 +1,26 @@
 import os
-from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import (
-    create_async_engine,
-    AsyncAttrs,
-    async_sessionmaker,
-)
-import asyncpg
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import sessionmaker
+import asyncpg
 
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+engine = create_async_engine(DATABASE_URL, echo=False, future=True)
 
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+AsyncSessionLocal = async_sessionmaker(
+    engine, expire_on_commit=False, class_=AsyncSession
+)
 
 
 @asynccontextmanager
 async def get_db():
-    async with async_session_maker() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+    print("ИСПОЛЬЗУЕТСЯ ОРИГИНАЛЬНАЯ ФУНКЦИЯ")
+    async with AsyncSessionLocal() as session:
+        yield session
 
 
 async def create_db_if_not_exists():
