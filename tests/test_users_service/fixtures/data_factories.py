@@ -1,11 +1,7 @@
 import factory
-import uuid
-import pytest_asyncio
-from httpx import AsyncClient, ASGITransport
-
-from users_service.app.main import app
-from users_service.app.database import get_db
+from uuid import uuid4
 from users_service.app.models import User
+from users_service.app.graphql.types.enums import UserRole
 
 
 class UserFactory(factory.Factory):

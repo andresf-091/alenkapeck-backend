@@ -14,7 +14,6 @@ async def async_client(db_session):
     ]
 
     async def _get_test_context():
-        print("ИСПОЛЬЗУЕТСЯ ПОДМЕНЁННЫЙ КОНТЕКСТ")
         return {"db_session": db_session}
 
     from strawberry.fastapi import GraphQLRouter

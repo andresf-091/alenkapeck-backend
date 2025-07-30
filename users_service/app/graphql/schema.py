@@ -3,10 +3,9 @@ from strawberry.types import Info
 from typing import Optional, List
 from uuid import UUID
 from sqlalchemy import select
-from ..database import get_db
 from ..models import User as UserModel
 from .types.user import User, UserCreateInput, UserUpdateInput
-from .types.scalars import Email
+from .types.errors import Errors
 
 
 @strawberry.type
@@ -25,7 +24,7 @@ class Query:
                 username=db_user.username,
                 role=db_user.role,
             )
-        return None
+        raise Errors.not_found("user", "database")
 
     @strawberry.field
     async def users(self, info: Info) -> List[User]:
@@ -44,7 +43,7 @@ class Query:
                 )
                 for db_user in db_users
             ]
-        return None
+        return []
 
 
 @strawberry.type
@@ -81,7 +80,7 @@ class Mutation:
         db_user = result.scalars().first()
 
         if not db_user:
-            return None
+            raise Errors.not_found("user", "database")
 
         await session.delete(db_user)
         await session.commit()
@@ -95,16 +94,18 @@ class Mutation:
         db_user = await session.get(UserModel, user_id)
 
         if not db_user:
-            return None
+            raise Errors.not_found("user", "database")
 
-        db_user.email = input.email if input.email else db_user.email
-        db_user.username = input.username if input.username else db_user.username
-        db_user.role = input.role if input.role else db_user.role
+        update_data = {k: v for k, v in input.__dict__.items() if v is not None}
+        for key, value in update_data.items():
+            setattr(db_user, key, value)
 
-        if input.password:
+        if "password" in update_data:
             # TODO: хэширование пароля
-            hashed_password = input.password + "_hashed"
-            db_user.password = hashed_password
+            update_data["password"] = update_data["password"] + "_hashed"
+
+        for key, value in update_data.items():
+            setattr(db_user, key, value)
 
         await session.commit()
         await session.refresh(db_user)
