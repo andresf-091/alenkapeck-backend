@@ -2,8 +2,8 @@ import pytest
 from sqlalchemy import select, text
 from sqlalchemy.exc import DBAPIError
 
-from users_service.app.models import User
-from .fixtures.data_factories import UserFactory
+from app.models import User
+from .fn.factories import UserFactory
 
 
 @pytest.mark.asyncio

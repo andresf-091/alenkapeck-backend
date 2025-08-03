@@ -2,7 +2,7 @@ import pytest_asyncio
 from contextlib import asynccontextmanager
 from httpx import AsyncClient, ASGITransport
 
-from users_service.app.main import app, schema
+from app.main import app, schema
 
 
 @pytest_asyncio.fixture
@@ -23,5 +23,5 @@ async def async_client(db_session):
     app.include_router(graphql_app, prefix="/graphql")
 
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://testserver") as client:
+    async with AsyncClient(transport=transport, base_url="http://localhost") as client:
         yield client

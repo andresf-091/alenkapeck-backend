@@ -1,7 +1,7 @@
 import factory
 from uuid import uuid4
-from users_service.app.models import User
-from users_service.app.graphql.types.enums import UserRole
+from app.models import User
+from app.graphql.types.enums import UserRole
 
 
 class UserFactory(factory.Factory):

@@ -1,7 +1,7 @@
 import pytest
 
-from .fixtures.data_factories import UserFactory
-from users_service.app.graphql.types.enums import UserRole
+from .fn.factories import UserFactory
+from app.graphql.types.enums import UserRole
 
 
 @pytest.mark.asyncio

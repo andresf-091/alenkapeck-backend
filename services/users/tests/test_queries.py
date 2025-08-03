@@ -1,7 +1,7 @@
 import uuid
 import pytest
 
-from .fixtures.data_factories import UserFactory
+from .fn.factories import UserFactory
 
 
 @pytest.mark.asyncio

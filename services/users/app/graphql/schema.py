@@ -3,6 +3,7 @@ from strawberry.types import Info
 from typing import Optional, List
 from uuid import UUID
 from sqlalchemy import select
+
 from ..models import User as UserModel
 from .types.user import User, UserCreateInput, UserUpdateInput
 from .types.errors import Errors
@@ -52,7 +53,6 @@ class Mutation:
     async def create_user(self, info: Info, input: UserCreateInput) -> Optional[User]:
         session = info.context["db_session"]
 
-        # TODO: хэширование пароля
         hashed_password = input.password + "_hashed"
 
         db_user = UserModel(

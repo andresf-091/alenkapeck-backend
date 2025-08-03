@@ -2,9 +2,9 @@ import strawberry
 import pytest
 import uuid
 from sqlalchemy import select
-from .fixtures.data_factories import UserFactory
+from .fn.factories import UserFactory
 
-from users_service.app.models import User
+from app.models import User
 
 
 @pytest.mark.asyncio
