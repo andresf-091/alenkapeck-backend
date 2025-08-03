@@ -7,9 +7,6 @@ from sqlalchemy.pool import NullPool
 from app.models import Base, User
 
 
-load_dotenv("services/users/.env.test", override=True)
-
-
 @pytest_asyncio.fixture(scope="session")
 async def engine():
     DATABASE_URL = str(os.getenv("DATABASE_URL"))
