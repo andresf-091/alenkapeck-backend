@@ -36,6 +36,7 @@ jobs:
       
       - name: Run python tests
         run: pytest services/users/tests/ -s -v
+        working-directory: services/users
   
   messenger-test:
     runs-on: ubuntu-latest
