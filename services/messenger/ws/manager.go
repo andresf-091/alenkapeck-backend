@@ -23,25 +23,6 @@ type WSManager struct {
 
 type PublisherFunc func(channel, message string)
 
-type WSMessageInput struct {
-	ChatID   uuid.UUID `json:"chat_id"`
-	SenderID uuid.UUID `json:"sender_id"`
-	Text     string    `json:"text"`
-}
-
-type WSMessageOutput struct {
-	MessageID uuid.UUID `json:"message_id"`
-	ChatID    uuid.UUID `json:"chat_id"`
-	SenderID  uuid.UUID `json:"sender_id"`
-	Text      string    `json:"text"`
-}
-
-type WSInitRequest struct {
-	UserID  uuid.UUID `json:"user_id"`
-	ChatID  uuid.UUID `json:"chat_id"`
-	IsStart bool      `json:"is_start"`
-}
-
 func NewWSManager(chatRepo *db.ChatRepo, messageRepo *db.MessageRepo, pubFn PublisherFunc) *WSManager {
 	return &WSManager{
 		ChatRepo:    chatRepo,
@@ -89,9 +70,9 @@ func (m *WSManager) readLoop(ctx context.Context, userID uuid.UUID, conn *websoc
 			}
 
 			persisted, err := m.MessageRepo.Create(ctx, &db.Message{
-				ChatID:   msg.ChatID,
-				SenderID: msg.SenderID,
-				Text:     msg.Text,
+				ChatID: msg.ChatID,
+				UserID: msg.UserID,
+				Text:   msg.Text,
 			})
 			if err != nil {
 				log.Println("Failed to create message:", err)
@@ -119,7 +100,7 @@ func (m *WSManager) HandleRedisMessage(channel, payload string) {
 		wsMsg := WSMessageOutput{
 			MessageID: msg.ID,
 			ChatID:    msg.ChatID,
-			SenderID:  msg.SenderID,
+			UserID:    msg.UserID,
 			Text:      msg.Text,
 		}
 		if err := conn.WriteJSON(wsMsg); err != nil {
