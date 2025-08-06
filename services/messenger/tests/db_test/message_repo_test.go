@@ -29,9 +29,9 @@ func TestMessageRepo_CRUD(t *testing.T) {
 	assert.NoError(t, err, "Chat should be created without error")
 
 	message := &db.Message{
-		ChatID:   chat.ID,
-		SenderID: uuid.New(),
-		Text:     "Test message",
+		ChatID: chat.ID,
+		UserID: uuid.New(),
+		Text:   "Test message",
 	}
 
 	message, err = messageRepo.Create(ctx, message)
@@ -46,10 +46,10 @@ func TestMessageRepo_CRUD(t *testing.T) {
 	assert.Equal(t, chat.ID, got.Chat.ID)
 
 	messageUpdate := &db.Message{
-		ID:       message.ID,
-		ChatID:   chat.ID,
-		SenderID: uuid.New(),
-		Text:     "Updated message",
+		ID:     message.ID,
+		ChatID: chat.ID,
+		UserID: uuid.New(),
+		Text:   "Updated message",
 	}
 
 	messageUpdate, err = messageRepo.Update(ctx, messageUpdate)

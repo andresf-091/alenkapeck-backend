@@ -70,8 +70,9 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Failed to truncate tables: %v", err)
 	}
 
+	code := m.Run()
+	os.Exit(code)
+
 	sqlDB, _ := testDB.DB()
 	sqlDB.Close()
-
-	os.Exit(m.Run())
 }
