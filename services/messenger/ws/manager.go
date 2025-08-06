@@ -158,10 +158,7 @@ func (m *WSManager) HandleConnection(ctx context.Context, conn *websocket.Conn) 
 	m.addUserConn(chat.ID, conn)
 	defer m.removeUserConn(chat.ID, conn)
 
-	if err := conn.WriteJSON(map[string]string{
-		"status":  "ok",
-		"chat_id": chat.ID.String(),
-	}); err != nil {
+	if err := conn.WriteJSON(WSInitResponse{Status: "ok", ChatID: chat.ID}); err != nil {
 		log.Println("Failed to send init ACK:", err)
 		return
 	}

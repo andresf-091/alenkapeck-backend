@@ -20,3 +20,8 @@ type WSInitRequest struct {
 	ChatID  uuid.UUID `json:"chat_id"`
 	IsStart bool      `json:"is_start"`
 }
+
+type WSInitResponse struct {
+	Status string    `json:"status"`
+	ChatID uuid.UUID `json:"chat_id"`
+}

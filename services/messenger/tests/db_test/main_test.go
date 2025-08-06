@@ -43,15 +43,14 @@ func TestMain(m *testing.M) {
 	chatRepo = db.NewChatRepo(testDB)
 	messageRepo = db.NewMessageRepo(testDB)
 
-	code := m.Run()
-
 	err = truncateTables(testDB)
 	if err != nil {
 		log.Fatalf("Failed to truncate tables: %v", err)
 	}
 
+	code := m.Run()
+	os.Exit(code)
+
 	sqlDB, _ := testDB.DB()
 	sqlDB.Close()
-
-	os.Exit(code)
 }

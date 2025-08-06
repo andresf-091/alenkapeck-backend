@@ -1,6 +1,7 @@
 package ws_test
 
 import (
+	"messenger/ws"
 	"testing"
 	"time"
 
@@ -21,18 +22,14 @@ func TestEndToEnd_WSInitChat(t *testing.T) {
 	conn, _, err := dialer.Dial(serverURL+"/", nil)
 	require.NoError(t, err)
 
-	initRequest := map[string]any{
-		"user_id":  uuid.New().String(),
-		"chat_id":  uuid.New().String(),
-		"is_start": true,
-	}
-	require.NoError(t, conn.WriteJSON(initRequest))
+	require.NoError(t, conn.WriteJSON(ws.WSInitRequest{
+		UserID:  uuid.New(),
+		ChatID:  uuid.New(),
+		IsStart: true,
+	}))
 
-	var initResponse struct {
-		Status string    `json:"status"`
-		ChatID uuid.UUID `json:"chat_id"`
-	}
-	require.NoError(t, conn.ReadJSON(initResponse))
+	var initResponse ws.WSInitResponse
+	require.NoError(t, conn.ReadJSON(&initResponse))
 
 	require.Equal(t, "ok", initResponse.Status)
 	require.NotEmpty(t, initResponse.ChatID)
