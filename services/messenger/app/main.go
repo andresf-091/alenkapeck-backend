@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"messenger/db"
-	"messenger/redis"
-	"messenger/ws"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/redis"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/ws"
 
 	"github.com/joho/godotenv"
 )

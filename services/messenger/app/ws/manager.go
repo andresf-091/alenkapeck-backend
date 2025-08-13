@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"messenger/db"
 	"sync"
+
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"

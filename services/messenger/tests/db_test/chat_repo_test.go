@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"messenger/db"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
 
 	"github.com/google/uuid"
 	"github.com/lib/pq"

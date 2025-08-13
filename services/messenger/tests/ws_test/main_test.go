@@ -2,12 +2,13 @@ package ws_test
 
 import (
 	"log"
-	"messenger/db"
-	"messenger/ws"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/ws"
 
 	"github.com/gorilla/websocket"
 	"github.com/joho/godotenv"

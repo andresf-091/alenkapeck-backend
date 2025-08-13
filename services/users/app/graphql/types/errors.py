@@ -15,7 +15,7 @@ class Validation:
         if len(password) < 8:
             raise Errors.validation(
                 message="Invalid password",
-                field="password",
+                obj="password",
                 rule="must be at least 8 characters long",
             )
 
@@ -24,35 +24,35 @@ class Validation:
         if len(username) < 3:
             raise Errors.validation(
                 message="Username is too short",
-                field="username",
+                obj="username",
                 rule="username is too short",
             )
 
         if len(username) > 30:
             raise Errors.validation(
                 message="Username is too long",
-                field="username",
+                obj="username",
                 rule="username is too long",
             )
 
         if not Validation.USERNAME_ALLOWED.match(username):
             raise Errors.validation(
                 message="Username contains disallowed characters",
-                field="username",
+                obj="username",
                 rule="username has invalid characters",
             )
 
         if Validation.USERNAME_NO_BOUNDARY_SYMBOLS.search(username):
             raise Errors.validation(
                 message="Username cannot start or end with '.', '-', or '_'",
-                field="username",
+                obj="username",
                 rule="username can't start or end with boundary character",
             )
 
         if Validation.USERNAME_NO_DOUBLE_SYMBOLS.search(username):
             raise Errors.validation(
                 message="Username contains repeated special characters",
-                field="username",
+                obj="username",
                 rule="username can't contain consecutive specials",
             )
 
@@ -61,7 +61,7 @@ class Validation:
         if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
             raise Errors.validation(
                 message="Invalid email address",
-                field="email",
+                obj="email",
                 rule="must be a valid email address",
             )
 
@@ -77,23 +77,23 @@ class Validation:
 
 class Errors:
     @staticmethod
-    def not_found(field: str, location: str) -> GraphQLError:
+    def not_found(obj: str, location: str) -> GraphQLError:
         return GraphQLError(
-            message=f"{field} not found",
+            message=f"{obj} not found",
             extensions={
                 "code": "NOT_FOUND_ERROR",
-                "details": {"field": field, "location": location},
+                "details": {"obj": obj, "location": location},
             },
         )
 
     @staticmethod
-    def validation(message: str, field: str, rule: str):
+    def validation(message: str, obj: str, rule: str):
         raise GraphQLError(
             message=message,
             extensions={
                 "code": "VALIDATION_ERROR",
                 "details": {
-                    "field": field,
+                    "obj": obj,
                     "rule": rule,
                 },
             },

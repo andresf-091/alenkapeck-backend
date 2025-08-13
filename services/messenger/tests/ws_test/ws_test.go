@@ -1,9 +1,10 @@
 package ws_test
 
 import (
-	"messenger/ws"
 	"testing"
 	"time"
+
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"

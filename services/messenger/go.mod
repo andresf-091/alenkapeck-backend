@@ -1,4 +1,4 @@
-module messenger
+module github.com/andresf-091/alenkapeck-backend/services/messenger
 
 go 1.24.5
 

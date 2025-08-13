@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"messenger/db"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"

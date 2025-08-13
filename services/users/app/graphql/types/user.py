@@ -4,6 +4,8 @@ from uuid import UUID
 from .enums import UserRole
 from .errors import Validation
 
+from ... import models
+
 
 @strawberry.type
 class User:
@@ -33,3 +35,12 @@ class UserUpdateInput:
 
     def __post_init__(self):
         Validation.validate_user(self)
+
+
+def to_graphql_user(db_user: models.User) -> User:
+    return User(
+        id=db_user.id,
+        email=db_user.email,
+        username=db_user.username,
+        role=db_user.role,
+    )
