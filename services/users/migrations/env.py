@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from ..app.models import Base, User
+from app.models import Base, User
 import os
 from dotenv import load_dotenv
 

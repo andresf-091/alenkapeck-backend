@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"log"
 	"sync"
+	"os"
 
 	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/db"
+	"github.com/andresf-091/alenkapeck-backend/services/messenger/app/grpc"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -133,6 +135,24 @@ func (m *WSManager) HandleConnection(ctx context.Context, conn *websocket.Conn) 
 	userID := initReq.UserID
 	chatID := initReq.ChatID
 	isStart := initReq.IsStart
+
+	if userID == chatID {
+		log.Println("User ID and chat ID are the same")
+		return
+	}
+
+	userClient, err := grpc.NewUserClient(os.Getenv("USERS_SERVICE_ADDRESS"))
+	if err != nil {
+		log.Println("Failed to create user client:", err)
+		return
+	}
+	_, err = userClient.GetUser(ctx, userID.String())
+	if err != nil {
+		log.Println("Failed to get user:", err)
+		return
+	}
+
+
 	var chat *db.Chat
 	if !isStart {
 		var err error
@@ -148,7 +168,12 @@ func (m *WSManager) HandleConnection(ctx context.Context, conn *websocket.Conn) 
 		}
 	} else {
 		var err error
-		// TODO: проверка, существует ли пользователь
+		_, err = userClient.GetUser(ctx, userID.String())
+		if err != nil {
+			log.Println("User not found:", err)
+			return
+		}
+
 		chat, err = m.ChatRepo.Create(ctx, &db.Chat{UsersID: pq.StringArray{userID.String(), (chatID).String()}})
 		if err != nil {
 			log.Println("Failed to create chat:", err)
