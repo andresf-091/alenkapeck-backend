@@ -1,7 +1,7 @@
 Services:
     user:
         to run separatly:
-            1. cd services/messenger
+            1. cd services/users
             2. uvicorn app.main:app --reload --port 8000
 
     messenger:
