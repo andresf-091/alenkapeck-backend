@@ -32,7 +32,7 @@ class UserService(user_pb2_grpc.UserServiceServicer):
 async def serve_grpc():
     server = grpc.aio.server()
     user_pb2_grpc.add_UserServiceServicer_to_server(UserService(), server)
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port("127.0.0.1:50051")
     await server.start()
     print("gRPC сервер запущен на порту 50051")
     await server.wait_for_termination()
