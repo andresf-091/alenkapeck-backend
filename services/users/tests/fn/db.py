@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.pool import NullPool
-from app.models import Base, User
+from alembic.config import Config
+from alembic import command
 
 
 @pytest_asyncio.fixture(scope="session")
@@ -16,9 +17,10 @@ async def engine():
         future=True,
         poolclass=NullPool,
     )
-    async with eng.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+
+    alembic_cfg = Config("alembic.ini")
+    command.upgrade(alembic_cfg, "head")
+
     yield eng
     await eng.dispose()
 
@@ -44,6 +46,6 @@ async def db_session(engine: AsyncEngine):
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def drop_db(engine: AsyncEngine):
     yield
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
+    alembic_cfg = Config("alembic.ini")
+    command.downgrade(alembic_cfg, "base")
     await engine.dispose()

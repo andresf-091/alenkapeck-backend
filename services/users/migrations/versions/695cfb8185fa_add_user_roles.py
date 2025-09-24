@@ -53,7 +53,7 @@ def downgrade() -> None:
     op.drop_constraint("users_pkey", "users", type_="primary")
     op.alter_column("users", "id", new_column_name="uuid")
     op.add_column(
-        "users", sa.Column("id", sa.Integer(), autoincrement=True, nullable=False)
+        "users", sa.Column("id", sa.Integer(), autoincrement=True, nullable=True)
     )
     op.create_primary_key("users_pkey", "users", ["id"])
     op.drop_column("users", "uuid")
