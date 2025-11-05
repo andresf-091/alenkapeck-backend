@@ -13,6 +13,7 @@ dependencies = [
     "grpcio>=1.74.0",
     "grpcio-tools>=1.74.0",
     "httpx>=0.28.1",
+    "psutil>=7.1.0",
     "psycopg2-binary>=2.9.10",
     "pydantic[email]>=2.0",
     "pydentic>=0.0.1.dev3",

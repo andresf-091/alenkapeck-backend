@@ -3,6 +3,7 @@ import subprocess
 import os
 from dotenv import load_dotenv
 import time
+import psutil
 
 
 @pytest_asyncio.fixture(scope="session")
@@ -26,5 +27,8 @@ async def users_service():
     time.sleep(5)
 
     yield process
-    process.terminate()
-    time.sleep(2)
+
+    parent = psutil.Process(process.pid)
+    for child in parent.children(recursive=True):
+        child.kill()
+    parent.kill()
